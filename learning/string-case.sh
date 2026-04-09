@@ -2,8 +2,7 @@
 
 # string case-check
 
-echo -n "Please enter a string -> "
-read str
+read -p "Please enter a string -> " str
 
 if [[ "$str" =~ ^[a-z\ ]+$ ]]; then
 	echo "lowercase string."
