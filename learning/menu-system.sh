@@ -9,52 +9,52 @@ clear
 	cat <<- _EOF_ 
 		Please Select:
 
-		1. Display System Information 
-		2. Display Disk Space
-		3. Display Home Space Utilization
-		4. Display Network Info
-		0. Quit
+		A. Display System Information 
+		B. Display Disk Space
+		C. Display Network Info
+		D. Display Home Space Utilization
+		Q. Quit
 
 	_EOF_
-	read -p "Enter selection [0-4] -> "
+	read -p "Enter selection [A, B, C, D or Q] -> "
 
-# using elif to handle input selection
-	if [[ "$REPLY" =~ ^[0-4]$ ]]; then
-		if [[ "$REPLY" == 1 ]]; then
+# using case statements to handle the multiple input selections neatly
+	case "$REPLY" in
+		a|A)
 			echo "Hostname: $HOSTNAME"
 			uptime
 			sleep "$DELAY"
-			continue
-		elif [[ "$REPLY" == 2 ]]; then
+			;;
+		b|B)
+			echo "Disk Space" 
 			df -h
 			sleep "$DELAY"
-			continue
-		elif [[ "$REPLY" == 3 ]]; then
-
-# check if user is root (ID = 0)
-		if [[ "$(id -u)" -eq 0 ]]; then
-			echo "Home Space Utilization (All Users)"
-			du -sh /home/*
-		else 
-			echo "Home Space Utilization ($USER)"
-			du -sh "$HOME"
-			sleep "$DELAY"
-			continue
-		fi
-		elif [[ "$REPLY" == 4 ]]; then
+			;;
+		c|C)
 			echo "Display Network Info"
 			ip --brief addr
 			sleep "$DELAY"
-			continue
-	fi
-	if [[ "$REPLY" == 0 ]]; then
-		break
-	fi
-# Handle invalid input
-		else
-			echo "Invalid entry."
-			sleep "$DELAY"
-		fi
+			;;
+# check if user is root (ID = 0)
+		d|D)
+			if [[ "$(id -u)" -eq 0 ]]; then
+				echo "Home Space Utilization (All Users)"
+				du -sh /home/*
+			else 
+				echo "Home Space Utilization ($USER)"
+				du -sh "$HOME"
+			fi
+				sleep "$DELAY"
+			;;
+# Handle invalid input selections
+		q|Q)
+			echo "Program terminated."
+			exit 0
+			;;
+		*)
+			echo "Invalid entry."	
+			sleep 2
+			;;
+	esac
 done
-echo "Program terminated."
 
