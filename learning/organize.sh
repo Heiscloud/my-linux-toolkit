@@ -46,7 +46,4 @@ move_files "tar.gz" "Archives"
 move_files "rpm" "Packages"
 move_files "iso" "ISO_Images"
 
-#scripts
-move_files "sh" "scripts"
-
 echo "Cleanup complete."
